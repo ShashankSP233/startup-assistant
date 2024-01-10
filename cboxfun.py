@@ -50,3 +50,5 @@ def listen():
             return None
 
 
+
+# todoSpeak()
