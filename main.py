@@ -4,6 +4,10 @@ import os
 import subprocess
 from  cboxfun import *
 from  todofun import *
+from  news import *
+from  newsint import *
+from  segn import *
+
 
 if __name__ == "__main__":
     greet_user()
@@ -12,23 +16,58 @@ if __name__ == "__main__":
         user_input = listen()
         
         if user_input:
-            if "start" in user_input:
-                if "admin" in user_input:
+            if "set startup" in user_input:
+                txtfl = open('toopen.txt', 'w')
+                speak('what do you wnat to start')
+                lis = list(input('Enter'))
+                for i in lis:
+                    txtfl.write(i+'\n')
+            
+            elif "start set" in user_input:    
+                start_set_programs()
+                speak("I've started the desired programs.")
+            
+            elif "admin" in user_input:
+                if "start" in user_input:
                    speak("can you specify what to start?")
                    user_input = listen()
                    start_program_as_admin(f'{user_input}.exe')
                 else: 
                     start_desired_programs()
                 speak("I've started the desired programs.")
-            elif any(word in user_input for word in ["close", "exit"]):
-                speak("Goodbye!")
-                break
-            elif any(word in user_input for word in ["todo", "worklist", "Shedule"]):
+        
+            elif any(word in user_input for word in ["todo", "worklist", "Schedule","to do",'work list']):
                 todoSpeak()
                 speak("do you want to edit this")
                 user_input = listen()
                 if user_input == "yes":
                     todorun()
+
+            elif any(word in user_input for word in ["news", "daily", "ongoing"]):
+                if "indian" in user_input:
+                    get_daily_news()
+                    nes = open('dailynews.txt', 'r')
+                    i= nes.readlines()
+                    for article in i :
+                        speak(article)
+                if "international" in user_input:
+                    get_daily_news()
+                    nes = open('intdailynews.txt', 'r')
+                    i= nes.readlines()
+                    for article in i :
+                        speak(article)
+            
+            elif any(word in user_input for word in ["close", "exit"]):
+                speak("Goodbye!")
                 break
+            elif    "google search" in user_input:
+                words = user_input.split()
+                try:
+                    index = words.index("google search") + 1
+                    term = words[index:]
+                    get_site(term)
+
+                except ValueError:
+                     None
             else:
                 speak("I'm not sure how to help with that. Could you please try something else?")
