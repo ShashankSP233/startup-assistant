@@ -21,7 +21,7 @@ def get_daily_newsint():
             if len(st)> 35:
                  today.append(st)
               
-    with open(r"C:\my program\projects\localnews.txt", "w") as filenews:
+    with open(r"localnews.txt", "w") as filenews:
                         for item in today:
                             filenews.write(item+"\n")
     # Close the browser
